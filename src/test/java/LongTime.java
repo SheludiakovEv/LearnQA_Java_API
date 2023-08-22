@@ -36,12 +36,14 @@ public class LongTime {
 
         Thread.sleep(mi);
 
-        Response response3 = RestAssured
+        JsonPath response3 = RestAssured
                 .given()
                 .queryParams(params)
                 .get("https://playground.learnqa.ru/ajax/api/longtime_job")
-                .andReturn();
+                .jsonPath();
 
         response3.prettyPrint();
+        String result = response3.get("result");
+        System.out.println(result);
     }
 }
