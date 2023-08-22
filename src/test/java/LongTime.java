@@ -10,7 +10,7 @@ public class LongTime {
 
     //Задание №8
     @Test
-    public  void redirectTest() throws InterruptedException {
+    public  void tokenTest() throws InterruptedException {
         JsonPath response1 = RestAssured
                 .given()
                 .get("https://playground.learnqa.ru/ajax/api/longtime_job")
