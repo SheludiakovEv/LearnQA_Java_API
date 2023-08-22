@@ -2,19 +2,20 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-public class Redirect {
+public class LongRedirect {
 
-    //Задание №6
+    //Задание №7
     @Test
     public  void redirectTest(){
         Response response = RestAssured
                 .given()
                 .redirects()
-                .follow(false)
+                .follow(true)
+                .when()
                 .get("https://playground.learnqa.ru/api/long_redirect")
                 .andReturn();
 
-        String url = response.getHeader("Location");
-        System.out.println("Адрес на который редиректит указанные URL:" + url);
+        int status = response.statusCode();
+        System.out.println(status);
     }
 }
