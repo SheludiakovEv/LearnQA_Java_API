@@ -53,7 +53,7 @@ public class LoginTest {
     @Test
     public void testLogin() {
         Response response1 = RestAssured
-        .given()
+                .given()
                 .contentType("application/json")
                 .body("{\"login\":\"" + login + "\",\"password\":\"" + password + "\"}")
                 .when()
