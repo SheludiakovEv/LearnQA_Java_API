@@ -7,7 +7,7 @@ import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UserEditTest extends BaseTestCase {
+public class UserDeleteTest extends BaseTestCase {
 
     String header;
     String cookie;
@@ -42,20 +42,32 @@ public class UserEditTest extends BaseTestCase {
     }
 
     @Test
-    //Редактируем пользователя не авторизованне в приложении
-    public void editNonAuth() {
+    public void deleteUserId2(){
+        //Попытка удаления пользователя с id =2
+        //LOGIN TEST
 
-        PojoUserRegister pojoUser = new PojoUserRegister(faker.internet().emailAddress(), password, userName, firstName, userName);
-        String jsonBody = new Gson().toJson(pojoUser);
+        PojoUserLogin pojoUserLogin = new PojoUserLogin("vinkotov@example.com", "1234");
+        String jsonBody = new Gson().toJson(pojoUserLogin);
 
-        Response editUser = apiCoreRequests.makePutEditUser("https://playground.learnqa.ru/api/user/" + userId, "", "", jsonBody);
+        Response responseLoginUser = apiCoreRequests.makePostRequestLoginUser("https://playground.learnqa.ru/api/user/login", jsonBody);
 
-        Assertions.asserResponseCodeEquals(editUser, 404);
+        header = this.getHeader(responseLoginUser, "x-csrf-token");
+        cookie = this.getCookie(responseLoginUser, "auth_sid");
+
+        System.out.println(header);//Для отладки
+        System.out.println(cookie);//Для отладки
+
+        //DELETE USER
+
+        Response deleteUserId2 = apiCoreRequests.makeDeleteUser("https://playground.learnqa.ru/api/user/2",header, cookie);
+
+        Assertions.asserResponseCodeEquals(deleteUserId2, 400);
+        Assertions.asserResponseTextEquals(deleteUserId2, "Please, do not delete test users with ID 1, 2, 3, 4 or 5.");
     }
 
     @Test
-    public void editAnotherUser() {
-        //Редактируем емаил
+    public void successfulDeleteUser(){
+        //Успешное удаление созданного пользователя и проверка успешного удаления
         //LOGIN TEST
 
         PojoUserLogin pojoUserLogin = new PojoUserLogin(email, password);
@@ -69,20 +81,22 @@ public class UserEditTest extends BaseTestCase {
         System.out.println(header);//Для отладки
         System.out.println(cookie);//Для отладки
 
-        //EDIT TEST
+        //DELETE USER
 
-        PojoUserRegister pojoUser = new PojoUserRegister("vitalyexample.com", password, userName, firstName, userName);
-        String jsonBody = new Gson().toJson(pojoUser);
+        Response deleteUser = apiCoreRequests.makeDeleteUser("https://playground.learnqa.ru/api/user/" + userId,header, cookie);
 
-        Response editUser = apiCoreRequests.makePutEditUser("https://playground.learnqa.ru/api/user/" + userId, header, cookie, jsonBody);
+        Assertions.asserResponseCodeEquals(deleteUser, 200);
 
-        Assertions.asserResponseCodeEquals(editUser, 400);
-        Assertions.asserResponseTextEquals(editUser, "Invalid email format");
+        //GET USER ID
+
+        Response getUserId = apiCoreRequests.makeGetUserInfoById("https://playground.learnqa.ru/api/user/" + userId,header, cookie);
+
+        Assertions.asserResponseCodeEquals(getUserId, 404);
     }
 
     @Test
-    public void editIncorrectUser() {
-        //Редактирем другого пользователя
+    public void anotherUserDelete(){
+        //Удаляем другого пользователя
         //LOGIN TEST
 
         PojoUserLogin pojoUserLogin = new PojoUserLogin(email, password);
@@ -96,41 +110,10 @@ public class UserEditTest extends BaseTestCase {
         System.out.println(header);//Для отладки
         System.out.println(cookie);//Для отладки
 
-        //EDIT TEST
+        //DELETE USER
 
-        PojoUserRegister pojoUser = new PojoUserRegister(email, password, faker.name().username(), firstName, userName);
-        String jsonBody = new Gson().toJson(pojoUser);
+        Response deleteUserId = apiCoreRequests.makeDeleteUser("https://playground.learnqa.ru/api/user/79549",header, cookie);
 
-        Response editUser = apiCoreRequests.makePutEditUser("https://playground.learnqa.ru/api/user/78", header, cookie, jsonBody);
-
-        Assertions.asserResponseCodeEquals(editUser, 400);
-        Assertions.asserResponseTextEquals(editUser, "Users with email " + "'" + email + "'" + " already exists");
-    }
-
-    @Test
-    public void editShortNameUser() {
-        //Редактируем на слишком короткое наименование
-        //LOGIN TEST
-
-        PojoUserLogin pojoUserLogin = new PojoUserLogin(email, password);
-        String jsonBody1 = new Gson().toJson(pojoUserLogin);
-
-        Response responseLoginUser = apiCoreRequests.makePostRequestLoginUser("https://playground.learnqa.ru/api/user/login", jsonBody1);
-
-        header = this.getHeader(responseLoginUser, "x-csrf-token");
-        cookie = this.getCookie(responseLoginUser, "auth_sid");
-
-        System.out.println(header);//Для отладки
-        System.out.println(cookie);//Для отладки
-
-        //EDIT TEST
-
-        PojoUserRegister pojoUser = new PojoUserRegister(email, password, "b", firstName, userName);
-        String jsonBody = new Gson().toJson(pojoUser);
-
-        Response editUser = apiCoreRequests.makePutEditUser("https://playground.learnqa.ru/api/user/78", header, cookie, jsonBody);
-
-        Assertions.asserResponseCodeEquals(editUser, 400);
-        Assertions.asserResponseTextEquals(editUser, "The value of 'username' field is too short");
+        Assertions.asserResponseCodeEquals(deleteUserId, 400);
     }
 }
