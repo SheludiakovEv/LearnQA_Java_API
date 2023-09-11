@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
-import lib.PojoUser;
+import lib.PojoUserRegister;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -19,7 +19,7 @@ public class UserRegisterTest {
     public void testUserRegistrationWithInvalidEmail() {
 
 
-        PojoUser pojoUser = new PojoUser("vinkotovexample.ru", "password", "username", "firstName", "lastName");
+        PojoUserRegister pojoUser = new PojoUserRegister("vinkotovexample.ru", "password", "username", "firstName", "lastName");
         String jsonBody = new Gson().toJson(pojoUser);
 
         Response response = apiCoreRequests.makePostRequestRegUser("https://playground.learnqa.ru/api/user/", jsonBody);
@@ -33,7 +33,7 @@ public class UserRegisterTest {
     @Test
     //Создание пользователя с очень коротким именем в один символ
     public void testUserRegistrationShortName() {
-        PojoUser pojoUser = new PojoUser("vinkotov@example.ru", "password", "u", "firstName", "lastName");
+        PojoUserRegister pojoUser = new PojoUserRegister("vinkotov@example.ru", "password", "u", "firstName", "lastName");
         String jsonBody = new Gson().toJson(pojoUser);
 
         Response response = apiCoreRequests.makePostRequestRegUser("https://playground.learnqa.ru/api/user/", jsonBody);
@@ -48,7 +48,7 @@ public class UserRegisterTest {
     //Создание пользователя с очень длинным именем - длиннее 250 символов
     public void testUserRegistrationLongName() {
         String username = "fghbirsfvcxvvbnlkmfsdvxyibujlknqwedacvyiuboinwrefd879034retgfjhbknlwedfg89234erthjbknqw3er897ybhjwerdfgbbhjwqedf6siuhklwerfdbg098uh32j4retgfhouhbjewdfgbouhbjg23wergf0987uyh345retgfuihyjgbewrdfcviuyhjb3w4erfg908uiwe4rtfgb9ioujkewrtgfhjkhgbcfujgyfhtd678";
-        PojoUser pojoUser = new PojoUser("vinkotov@example.ru", "password", username, "firstName", "lastName");
+        PojoUserRegister pojoUser = new PojoUserRegister("vinkotov@example.ru", "password", username, "firstName", "lastName");
         String jsonBody = new Gson().toJson(pojoUser);
 
         Response response = apiCoreRequests.makePostRequestRegUser("https://playground.learnqa.ru/api/user/", jsonBody);
@@ -69,7 +69,7 @@ public class UserRegisterTest {
             ", password, username, firstName, lastName",
     })
     public void testRegistrationErrorResponse(String email, String password, String username, String firstName, String lastName) {
-        PojoUser pojoUser = new PojoUser(email, password, username, firstName, lastName);
+        PojoUserRegister pojoUser = new PojoUserRegister(email, password, username, firstName, lastName);
         String jsonBody = new Gson().toJson(pojoUser);
 
         Response response = apiCoreRequests.makePostRequestRegUser("https://playground.learnqa.ru/api/user/", jsonBody);

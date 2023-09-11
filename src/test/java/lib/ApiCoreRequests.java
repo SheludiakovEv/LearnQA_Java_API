@@ -16,4 +16,23 @@ public class ApiCoreRequests {
                 .post(url)
                 .andReturn();
     }
+
+    @Step("Make POST-request login user")
+    public Response makePostRequestLoginUser(String url, String jsonBody){
+        return given()
+                .filter(new AllureRestAssured())
+                .body(jsonBody)
+                .post(url)
+                .andReturn();
+    }
+
+    @Step("Make Get-request user info")
+    public Response makeGetUserInfoById(String url, String header, String cookie){
+        return given()
+                .filter(new AllureRestAssured())
+                .headers("x-csrf-token", header)
+                .cookie("auth_sid", cookie)
+                .get(url)
+                .andReturn();
+    }
 }

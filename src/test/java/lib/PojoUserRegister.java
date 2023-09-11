@@ -1,13 +1,13 @@
 package lib;
 
-public class PojoUser {
+public class PojoUserRegister {
     private String email;
     private String password;
     private String username;
     private String firstName;
     private String lastName;
 
-    public PojoUser(String email, String password, String username, String firstName, String lastName) {
+    public PojoUserRegister(String email, String password, String username, String firstName, String lastName) {
         this.email = email;
         this.password = password;
         this.username = username;
