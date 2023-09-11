@@ -1,6 +1,7 @@
 package tests;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -12,6 +13,7 @@ public class UserGetTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
+    @Feature("Login user")
     @Test
     public void testLogin() {
 

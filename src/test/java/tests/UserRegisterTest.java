@@ -1,6 +1,7 @@
 package tests;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -14,6 +15,7 @@ public class UserRegisterTest {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
+    @Feature("Create user")
     @Test
     //Создание пользователя с некорректным email - без символа @
     public void testUserRegistrationWithInvalidEmail() {
@@ -29,6 +31,7 @@ public class UserRegisterTest {
         System.out.println(response.statusCode()); //Для отладки
     }
 
+    @Feature("Create user")
     @Test
     //Создание пользователя с очень коротким именем в один символ
     public void testUserRegistrationShortName() {
@@ -43,6 +46,7 @@ public class UserRegisterTest {
         System.out.println(response.statusCode()); //Для отладки
     }
 
+    @Feature("Create user")
     @Test
     //Создание пользователя с очень длинным именем - длиннее 250 символов
     public void testUserRegistrationLongName() {
@@ -58,6 +62,7 @@ public class UserRegisterTest {
         System.out.println(response.statusCode()); //Для отладки
     }
 
+    @Feature("Create user")
     @ParameterizedTest
     //Создание пользователя без указания одного из полей - с помощью @ParameterizedTest необходимо проверить, что отсутствие любого параметра не дает зарегистрировать пользователя
     @CsvSource({

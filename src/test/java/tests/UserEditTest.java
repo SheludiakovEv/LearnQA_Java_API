@@ -1,6 +1,9 @@
 package tests;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.*;
 import net.datafaker.Faker;
@@ -41,6 +44,7 @@ public class UserEditTest extends BaseTestCase {
         System.out.println(password);
     }
 
+    @Feature("Edit user")
     @Test
     //Редактируем пользователя не авторизованне в приложении
     public void editNonAuth() {
@@ -53,6 +57,8 @@ public class UserEditTest extends BaseTestCase {
         Assertions.asserResponseCodeEquals(editUser, 404);
     }
 
+    @Story("Попытка реактирования email без @")
+    @Feature("Edit user")
     @Test
     public void editAnotherUser() {
         //Редактируем емаил
@@ -80,6 +86,9 @@ public class UserEditTest extends BaseTestCase {
         Assertions.asserResponseTextEquals(editUser, "Invalid email format");
     }
 
+    @Description("Доп описание")
+    @Story("Попытка реактирования пользователя под другим юзером")
+    @Feature("Edit user")
     @Test
     public void editIncorrectUser() {
         //Редактирем другого пользователя
@@ -107,6 +116,9 @@ public class UserEditTest extends BaseTestCase {
         Assertions.asserResponseTextEquals(editUser, "Users with email " + "'" + email + "'" + " already exists");
     }
 
+    @Description("Доп описание")
+    @Story("Попытка реактирования userName на слишком короткое")
+    @Feature("Edit user")
     @Test
     public void editShortNameUser() {
         //Редактируем на слишком короткое наименование

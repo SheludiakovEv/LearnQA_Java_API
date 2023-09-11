@@ -1,10 +1,14 @@
 package tests;
 
 import com.google.gson.Gson;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import lib.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class UserDeleteTest extends BaseTestCase {
@@ -41,9 +45,12 @@ public class UserDeleteTest extends BaseTestCase {
         System.out.println(password);
     }
 
+    @DisplayName("Попытка удаления пользователя с id =2")
+    @Description("Доп описание")
+    @Story("Попытка удаления пользователя с id =2")
+    @Feature("Delete user")
     @Test
     public void deleteUserId2(){
-        //Попытка удаления пользователя с id =2
         //LOGIN TEST
 
         PojoUserLogin pojoUserLogin = new PojoUserLogin("vinkotov@example.com", "1234");
@@ -65,9 +72,12 @@ public class UserDeleteTest extends BaseTestCase {
         Assertions.asserResponseTextEquals(deleteUserId2, "Please, do not delete test users with ID 1, 2, 3, 4 or 5.");
     }
 
+    @DisplayName("Успешное удаление пользователя")
+    @Description("Доп описание")
+    @Story("Успешное удаление пользователя")
+    @Feature("Delete user")
     @Test
     public void successfulDeleteUser(){
-        //Успешное удаление созданного пользователя и проверка успешного удаления
         //LOGIN TEST
 
         PojoUserLogin pojoUserLogin = new PojoUserLogin(email, password);
@@ -94,9 +104,12 @@ public class UserDeleteTest extends BaseTestCase {
         Assertions.asserResponseCodeEquals(getUserId, 404);
     }
 
+    @DisplayName("Попытка удаления пользователя под другим юзером")
+    @Description("Доп описание")
+    @Story("Попытка удаления пользователя под другим юзером")
+    @Feature("Delete user")
     @Test
     public void anotherUserDelete(){
-        //Удаляем другого пользователя
         //LOGIN TEST
 
         PojoUserLogin pojoUserLogin = new PojoUserLogin(email, password);
