@@ -18,7 +18,6 @@ public class UserRegisterTest {
     //Создание пользователя с некорректным email - без символа @
     public void testUserRegistrationWithInvalidEmail() {
 
-
         PojoUserRegister pojoUser = new PojoUserRegister("vinkotovexample.ru", "password", "username", "firstName", "lastName");
         String jsonBody = new Gson().toJson(pojoUser);
 

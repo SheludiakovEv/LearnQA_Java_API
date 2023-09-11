@@ -35,4 +35,15 @@ public class ApiCoreRequests {
                 .get(url)
                 .andReturn();
     }
+
+    @Step("Make PUT-request edit user")
+    public Response makePutEditUser(String url, String header, String cookie, String jsonBody){
+        return given()
+                .filter(new AllureRestAssured())
+                .headers("x-csrf-token", header)
+                .cookie("auth_sid", cookie)
+                .body(jsonBody)
+                .post(url)
+                .andReturn();
+    }
 }
